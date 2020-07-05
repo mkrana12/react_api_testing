@@ -12,7 +12,7 @@ class App extends Component{
     this.state = {myFood: 'coconut'};
     this.state = {myName: ''};
 
-    this.state = {teams: []};
+    this.state = {teams: []}; // storing the response from the API call
 
     //this.state = {standings: []};
 
@@ -56,7 +56,6 @@ class App extends Component{
 
   componentDidMount = async () => {
 
-    alert("API Called");
     console.log("API Called");
 
     fetch("http://api.football-data.org/v2/competitions/PL/standings", {
@@ -65,30 +64,39 @@ class App extends Component{
       'X-Auth-Token': '3163ef1e43724739b183eae4cc97ea95'
      
     }
-  })
+  }) // calling the API to get league data
     .then((response) => response.json())
     .then((responseText) => {
-        console.log(responseText);
-        this.setState({ teams: responseText.standings });
+        console.log("Actual Response :: "); // log original json response
+        console.log(responseText); // log original json response
+        this.setState({ teams: responseText.standings }); // extract only the standings
         //this.setState({ standings: responseText.standings });
-        console.log("Season Stats");
-        console.log(this.state.teams);
+        
+        console.log("Standings :: "); // logging standings data from state
+        console.log(this.state.teams); // logging standings data from state
 
-        //parse the json object
+      // Parse the JSON to get the data we need
+      // Team name, match played, match won, match lost, match drawn, points
 
-        /*
-        var myTeams = JSON.parse(this.state.teams);
-        console.log("First Record");
-        console.log(myTeams.teams[0].stage);
-        */
+        //for (var key in this.state.teams) {   
 
-        for (var key in this.state.teams) {   
-            console.log("Stage: key: " + key + this.state.teams[key].stage); 
-            console.log("Table: key: " + key + this.state.teams[key].table[key].position); 
-            console.log("Team: key: " + key + this.state.teams[key].table[key].team.name); 
-        }
+            //console.log("Stage: key: " + key + this.state.teams[key].stage); 
 
-    })
+            for(var key2 in this.state.teams[0].table) {
+
+              console.log("Team Name : " + this.state.teams[0].table[key2].team.name 
+                  + ", position : " + this.state.teams[0].table[key2].position
+                  + ", won : " + this.state.teams[0].table[key2].won
+                  + ", draw : " + this.state.teams[0].table[key2].draw
+                  + ", lost : " + this.state.teams[0].table[key2].lost
+                  + ", points : " + this.state.teams[0].table[key2].points
+                  + ", goals for : " + this.state.teams[0].table[key2].goalsFor
+                  + ", goals against : " + this.state.teams[0].table[key2].goalsAgainst
+                  + ", goal difference : " + this.state.teams[0].table[key2].goalDifference); 
+          } // end of for loop
+        //}
+
+    }) // end of fetch second then
     .catch((error) => {
       console.log("client error ", error);
     });
@@ -141,28 +149,14 @@ class App extends Component{
    */
 
     <div className="App">
-
-      <p> {console.log("Inside Render: ")}</p>
-      <p> {console.log(this.state.teams)}</p>
-
-       <p> {console.log("Standings Stage: ")}</p>
-      <p> {console.log(this.state.teams)}</p>
-
-      <p>
     
-          
           <div className="Team">
             <div className="Team Details">
-
-
-       
-             
+            
    
             </div>
           </div>
-          
       
-      </p>
 
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
