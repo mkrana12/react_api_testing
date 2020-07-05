@@ -20,7 +20,7 @@ class App extends Component{
     this.handleFruit = this.handleFruit.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     
-  }
+  } // end of constructor
 
   handleFruit = (event) => {
 
@@ -33,52 +33,53 @@ class App extends Component{
 
     alert("confirming the fruit selected: " + mf);
     
-    
+     // end of handleFruit
   }
 
   handleChange = (event) => {
    
        this.setState({myName: event.target.value});
 
-
-  }
+  } // end of handleChange
 
   handleSubmit = (event) => {
 
     alert('This name was entered' + this.state.myName);
     event.preventDefault();
-  }
+
+  } // end of handleSubmit
 
   anotherChange = () => {
     alert(this.state.myFood);
 
-  }
+  } // end of anotherChange
 
   componentDidMount = async () => {
 
     console.log("API Called");
 
     fetch("http://api.football-data.org/v2/competitions/PL/standings", {
-    method: 'GET',
-    headers: {  
+      method: 'GET',
+      headers: {  
       'X-Auth-Token': '3163ef1e43724739b183eae4cc97ea95'
      
-    }
-  }) // calling the API to get league data
-    .then((response) => response.json())
-    .then((responseText) => {
-        console.log("Actual Response :: "); // log original json response
-        console.log(responseText); // log original json response
-        this.setState({ teams: responseText.standings }); // extract only the standings
-        //this.setState({ standings: responseText.standings });
+        }
+      }) // calling the API to get league data
+      .then((response) => response.json())
+      .then((responseText) => {
+          console.log("Actual Response :: "); // log original json response
+          console.log(responseText); // log original json response
+          this.setState({ teams: responseText.standings }); // extract only the standings
+          
         
-        console.log("Standings :: "); // logging standings data from state
-        console.log(this.state.teams); // logging standings data from state
+          console.log("Standings :: "); // logging standings data from state
+          console.log(this.state.teams); // logging standings data from state
 
-      // Parse the JSON to get the data we need
-      // Team name, match played, match won, match lost, match drawn, points
+        // Parse the JSON to get the data we need
+        // Team name, match played, match won, match lost, match drawn, points
 
-        //for (var key in this.state.teams) {   
+          //for (var key in this.state.teams) {   // only reading 1st row. Loop is not needed
+            // other two rows can be read to read home and away records
 
             //console.log("Stage: key: " + key + this.state.teams[key].stage); 
 
@@ -96,33 +97,27 @@ class App extends Component{
           } // end of for loop
         //}
 
-    }) // end of fetch second then
-    .catch((error) => {
-      console.log("client error ", error);
-    });
+      }) // end of fetch second then
+      .catch((error) => {
+        console.log("client error ", error);
+      });
   
-  }
+  } // end of the method componentDidMount
 
-/*
-.then((response) => response.text())
-    .then((responseText) => {
-        console.log(JSON.parse(responseText));
-
-        */
 
   changeBtnLabel = () => {
     alert(" Button Clicked by ");
     this.setState({buttonText: "Manoj"});
     this.setState({background: 'blue'});
     alert(" Button color changed ");
-  }
+  } // end of changeBtnLabel
 
   render() {
 
     return(
 
 
-       /*
+       /* SAMPLE CODE
         {this.state.teams.map((team) => (
           
           <div className="Team">
@@ -180,8 +175,6 @@ class App extends Component{
         </label>
 
       <p> </p>
-
-     
 
 
     <form onSubmit={this.handleSubmit}>
